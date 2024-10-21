@@ -8,22 +8,37 @@ import { PiPencilSimpleLineLight } from "react-icons/pi";
 import { TbMailPause } from "react-icons/tb";
 import { FaRedo } from "react-icons/fa";
 import { FaRegThumbsUp } from "react-icons/fa";
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/rootReducer';
+import { useDispatch } from 'react-redux';
+import { changeLeadStatus } from '../redux/slices/projectLead';
 
 import { FaCheck} from 'react-icons/fa';
 
 const ProgressTracker = () => {
     const [currentStep, setCurrentStep] = useState(0);
+    const dispatch = useDispatch();
+
+    const statusCount = useSelector((state: RootState) => state.projectLeads.statusCount);
+    const count = useSelector((state : RootState) => state.projectLeads.count);
+
+    const handleStatusChange = (index: number): void => {
+        setCurrentStep(index); // Update the current step
+        dispatch(changeLeadStatus(steps[index].value)); // Dispatch action with the step's value
+        console.log(`Changing status to: ${steps[index].value}`);
+    };
+    
 
     const steps = [
-        { icon: <MdWorkOutline/>, label: "200", percentage: "100%", days: "3 DAYS", description: "New" },
-        { icon: <IoCallOutline/>, label: "50", percentage: "70%", days: "12 DAYS", description: "Contact" },
-        { icon: <IoCalendarOutline/>, label: "30", percentage: "30%", days: "3 DAYS", description: "Upload Scope" },
-        { icon: <IoReceiptOutline/>, label: "12", percentage: "40%", days: "3 DAYS", description: "Estimate" },
-        { icon: <PiPencilSimpleLineLight />, label: "15", percentage: "20%", days: "9 DAYS", description: "Sign Contract" },
-        { icon: <FaRedo/>, label: "2", percentage: "20%", days: "8 DAYS", description: "Payment" },
-        { icon: <TbMailPause/>, label: "8", percentage: "10%", days: "5 DAYS", description: "Installation" },
-        { icon: <FaCheck />, label: "10", percentage: "10%", days: "8 DAYS", description: "Completed" },
-        { icon: <FaRegThumbsUp/>, label: "30", percentage: "10%", days: "8 DAYS", description: "Feedback" }
+        { icon: <MdWorkOutline/>,  percentage: "100%", days: "3 DAYS", description: "New", value : "New" },
+        { icon: <IoCallOutline/>, percentage: "70%", days: "12 DAYS", description: "Contact", value:"Contact" },
+        { icon: <IoCalendarOutline/>,  percentage: "30%", days: "3 DAYS", description: "Upload Scope", value: "UploadScope" },
+        { icon: <IoReceiptOutline/>,  percentage: "40%", days: "3 DAYS", description: "Estimate",value : "Estimate" },
+        { icon: <PiPencilSimpleLineLight />,  percentage: "20%", days: "9 DAYS", description: "Sign Contract", value : "SignContract" },
+        { icon: <FaRedo/>,  percentage: "20%", days: "8 DAYS", description: "Payment", value : "Payment" },
+        { icon: <TbMailPause/>, percentage: "10%", days: "5 DAYS", description: "Installation", value : "Installation" },
+        { icon: <FaCheck />,  percentage: "10%", days: "8 DAYS", description: "Completed", value : "Completed" },
+        { icon: <FaRegThumbsUp/>,  percentage: "10%", days: "8 DAYS", description: "Feedback", value : "Feedback" }
     ];
 
     return (
@@ -32,7 +47,7 @@ const ProgressTracker = () => {
                 {/* Labels for each step */}
                 <div className="step-labels flex flex-row text-xs text-gray-500  justify-between stify-around  w-[93%] ml-[10%] mt-[2%] space-x-10 ">
                     {steps.map((step, index) => (
-                        <p key={index} className={`p-2 ${currentStep === index ? 'font-bold text-blue-500' : ''}`}>
+                        <p key={index} onClick={() => handleStatusChange(index)}  className={`p-2 ${currentStep === index ? 'font-bold text-blue-500' : ''}`}>
                             {step.description}
                         </p>
                     ))}
@@ -44,7 +59,7 @@ const ProgressTracker = () => {
                             key={index}
                             className={`step p-5 ${currentStep === index ? 'current' : ''} ${currentStep > index ? 'done' : ''}`}
                         >
-                           <div className='flex justify-between ml-2  text-black'> {step.icon} <span className='text-xs mr-3 font-bold text-black'>{step.label}</span></div>
+                           <div className='flex justify-between ml-2  text-black'> {step.icon} <span className='text-xs mr-3 font-bold text-black'>{statusCount[index]}</span></div>
                         </div>
                     ))}
                 </div>
@@ -60,7 +75,7 @@ const ProgressTracker = () => {
 
             {/* Footer - Active Leads and Completed */}
             <div className="footer flex justify-between items-center mt-[2%] mb-2">
-                <span className="text-gray-500 text-xs ml-[6%]">120 Active Leads</span>
+                <span className="text-gray-500 text-xs ml-[6%]">{count + " Total Leads"}</span>
                 <div className="flex items-center space-x-2 text-gray-500 text-xs font-bold mr-[4%]">
                     <FaCheck />
                     <span>COMPLETED (10)</span>
