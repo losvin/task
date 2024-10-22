@@ -42,7 +42,7 @@ const ProjectCard : React.FC<ProjectCardProps> = ({lead}) => {
         
         {/* Project Info */}
         <div>
-          <h2 className="text-lg text-black">{lead.name} <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 ml-2 rounded-lg">0185000</span> </h2>
+          <h2 className="text-lg text-black">{lead.name}</h2>
           <div className="flex space-x-4 mt-2 text-gray-500 text-sm">
             <span className="flex items-center">
             <span><IoCallOutline className="text-lg mr-2 font-bold" /> </span> {lead.phone}

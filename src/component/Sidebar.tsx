@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { LuLayoutDashboard } from "react-icons/lu";
 import { WiTime12 } from "react-icons/wi";
 import { CiViewList } from "react-icons/ci";
@@ -13,10 +14,17 @@ import { TfiStatsUp } from "react-icons/tfi";
 import { FaCheckCircle } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
+  const location = useLocation(); // Get the current route location
+  const [activeItem, setActiveItem] = useState(location.pathname); // Initialize with current path
+
+  // Update active item when the path changes
+  const handleItemClick = (url: string) => {
+    setActiveItem(url); // Set the clicked item's URL as active
+  };
+
   return (
     <div className="h-screen w-64 bg-white border-r-2 border-gray-100 flex flex-col justify-between">
       <div className="p-4">
@@ -44,13 +52,21 @@ const Sidebar = () => {
           <p className="text-xs text-gray-500 mb-3">MAIN MENU</p>
 
           {menuItems.map((item, index) => (
-            <Link to={item.url}>
-              <div key={index} className="flex items-center space-x-3 py-2 px-3 rounded-md text-gray-400 hover:text-teal-600 hover:font-bold hover:bg-gray-100 transition cursor-pointer text-lg">
-                {item.icon}
-                <span className={`text-sm text-gray-400 font-medium hover:text-black ${item.active ? 'text-blue-500' : 'text-gray-700'}`}>
-                  {item.label}
-                </span>
-              </div>
+            <Link
+              key={index}
+              to={item.url}
+              onClick={() => handleItemClick(item.url)} // Set the item as active on click
+              className={`flex items-center space-x-3 py-2 px-3 rounded-md text-lg cursor-pointer transition
+                ${
+                  activeItem === item.url
+                    ? "bg-gray-50 text-teal-500 font-bold" // Highlight the active item
+                    : "text-gray-400 hover:text-teal-600 hover:bg-gray-100" // Default style for non-active items
+                }`}
+            >
+              {item.icon}
+              <span className={`text-sm ${activeItem === item.url ? 'text-black' : 'text-gray-700'}`}>
+                {item.label}
+              </span>
             </Link>
           ))}
         </nav>
@@ -62,9 +78,9 @@ const Sidebar = () => {
           <img
             src="https://via.placeholder.com/40"
             alt="User"
-            className="w-10 h-10 rounded-full mr-2 border-b p-0.5 "
+            className="w-10 h-10 rounded-full mr-2 border-b p-0.5"
           />
-          <div className="text-xs items-center ">
+          <div className="text-xs items-center">
             <div className="flex">
               <p className="text-lg ml-2">Jacob Jones</p>
               <MdOutlineArrowForwardIos className="text-sm ml-8 mt-2" />
@@ -83,19 +99,18 @@ const Sidebar = () => {
 
 // Menu items for the sidebar
 const menuItems = [
-  { label: 'Dashboard', icon: <LuLayoutDashboard />, active: false, url: "/" },
-  { label: 'Time Tracking', icon: <WiTime12 />, active: false, url: "/" },
-  { label: 'Task List', icon: <CiViewList />, active: false, url: "/" },
-  { label: 'Lead Pipeline', icon: <BsTextParagraph />, active: false, url: "/projectLeads" },
-  { label: 'Estimates', icon: <IoReceiptOutline />, active: false, url: "/" },
-  { label: 'Invoices', icon: <LiaFileInvoiceSolid />, active: false, url: "/" },
-  { label: 'Projects', icon: <MdWorkOutline />, active: false, url: "/" },
-  { label: 'Schedule', icon: <IoCalendarOutline />, active: false, url: "/" },
-  { label: 'Photos & Files', icon: <TbPhoto />, active: false, url: "/" },
-  { label: 'Customers', icon: <MdOutlinePeopleAlt />, active: false, url: "/" },
-  { label: 'Map', icon: <GrMapLocation />, acitve: false, url: "/" },
-  { label: 'Reports', icon: <TfiStatsUp />, active: false, url: "/" },
+  { label: 'Dashboard', icon: <LuLayoutDashboard />, url: "/" },
+  { label: 'Time Tracking', icon: <WiTime12 />, url: "/time-tracking" },
+  { label: 'Task List', icon: <CiViewList />, url: "/task-list" },
+  { label: 'Lead Pipeline', icon: <BsTextParagraph />, url: "/projectLeads" },
+  { label: 'Estimates', icon: <IoReceiptOutline />, url: "/estimates" },
+  { label: 'Invoices', icon: <LiaFileInvoiceSolid />, url: "/invoices" },
+  { label: 'Projects', icon: <MdWorkOutline />, url: "/projects" },
+  { label: 'Schedule', icon: <IoCalendarOutline />, url: "/schedule" },
+  { label: 'Photos & Files', icon: <TbPhoto />, url: "/photos-files" },
+  { label: 'Customers', icon: <MdOutlinePeopleAlt />, url: "/customers" },
+  { label: 'Map', icon: <GrMapLocation />, url: "/map" },
+  { label: 'Reports', icon: <TfiStatsUp />, url: "/reports" },
 ];
-
 
 export default Sidebar;

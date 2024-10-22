@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { BsPlayCircle } from "react-icons/bs";
 import { BsSortDown } from "react-icons/bs";
 import { AiOutlineFilter } from "react-icons/ai";
@@ -15,14 +15,12 @@ interface DateValue {
     endDate: Date;
 }
 
-
 const ProjectLeadsHeader = () => {
-
     const dispatch = useDispatch();
 
     // State declarations with proper types
-    const [sortOption, setSortOption] = useState<string>("oldest");
-    const [filterOption, setFilterOption] = useState<string>("all");
+    const [sortOption, setSortOption] = useState<string>("oldest"); // Default to 'oldest'
+    const [filterOption, setFilterOption] = useState<string>("All"); // Default to 'New'
     const [showForm, setShowForm] = useState<boolean>(false);
     const [oneWay, setOneWay] = useState<boolean>(true);
     const [value, setValue] = useState<DateValue>({
@@ -57,10 +55,8 @@ const ProjectLeadsHeader = () => {
     // Handle date change with a proper type for `newValue`
     const handleDateChange = (newValue: DateValueType) => {
         if (newValue) {
-            // Assuming newValue is not null, assign it to your state
             setValue(newValue as DateValue);
         } else {
-            // Handle the case where newValue is null if needed
             console.log("Datepicker value is null");
         }
     };
@@ -70,24 +66,23 @@ const ProjectLeadsHeader = () => {
             {/* Header */}
             <div className="flex justify-between items-center bg-white border-b-2 border-gray-100 p-4">
                 {/* Left Section - Title */}
-                <div className="flex items-center space-x-2 ml-8 w-[60%] ">
+                <div className="flex items-center space-x-2 ml-8 w-[60%]">
                     <h2 className="text-xl font-semibold text-gray-800">New Project Leads</h2>
                     <BsPlayCircle className="text-teal-500 text-3xl" />
                 </div>
 
                 {/* Right Section - Controls */}
-                <div className="flex space-x-3 items-center ml-[10%] float-right -mr-5 w-[60%]">
+                <div className="flex space-x-3 items-center ml-[0%] float-right -mr-5 w-[65%]">
                     {/* Sort by */}
                     <div className="relative flex items-center space-x-2 border rounded-md px-3 py-1 text-gray-500 text-sm">
                         <BsSortDown className="text-lg" />
-                        <span>Sort by</span>
+                        <span>{sortOption === 'latest' ? 'Latest' : 'Oldest'}</span> {/* Dynamically show selected option */}
                         <MdKeyboardArrowDown className="text-lg" />
                         <select
                             className="absolute inset-0 opacity-0 cursor-pointer w-full h-full bg-white"
-                            value={sortOption}
+                            value={sortOption} // Default value is 'oldest'
                             onChange={handleSortChange}
                         >
-                            
                             <option value="latest" className="px-4 py-2">Latest</option>
                             <option value="oldest" className="px-4 py-2">Oldest</option>
                         </select>
@@ -96,13 +91,14 @@ const ProjectLeadsHeader = () => {
                     {/* Filters */}
                     <div className="relative flex items-center space-x-2 border rounded-md px-3 py-1 text-gray-500 text-sm">
                         <AiOutlineFilter className="text-lg" />
-                        <span>Filter by</span>
+                        <span>{filterOption}</span> {/* Dynamically show selected filter */}
                         <MdKeyboardArrowDown className="text-lg" />
                         <select
                             className="absolute inset-0 opacity-0 cursor-pointer w-full h-full bg-white"
-                            value={filterOption}
+                            value={filterOption} // Default value is 'New'
                             onChange={handleFilterChange}
                         >
+                            <option value = "All" disabled>All</option>
                             <option value="New">New</option>
                             <option value="Contact">Contact</option>
                             <option value="UploadScope">Upload Scope</option>
@@ -116,11 +112,11 @@ const ProjectLeadsHeader = () => {
                     </div>
 
                     {/* Datepicker */}
-                    <div className="w-[35%]">
+                    <div className="w-[45%]">
                         <Datepicker
                             inputClassName={"w-full border-[1px] border-gray-300 p-0.5 rounded-md bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"}
                             containerClassName=""
-                            asSingle={oneWay}
+                            asSingle={false} // Set to false to show both start and end date
                             primaryColor={"blue"}
                             value={value}
                             showShortcuts={true}
@@ -129,12 +125,8 @@ const ProjectLeadsHeader = () => {
                     </div>
                 </div>
 
-
                 <AddForm />
             </div>
-
-
-
         </div>
     );
 };

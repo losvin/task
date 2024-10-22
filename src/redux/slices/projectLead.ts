@@ -70,8 +70,8 @@ const projectLeadsSlice = createSlice({
   reducers: {
     changeLeadStatus: (state, action) => {
       const newStatus = action.payload;
-      console.log("New Status", newStatus);
-      debugger;
+      // console.log("New Status", newStatus);
+      // debugger;
       state.status = newStatus;
       state.filteredLeads = state.leads.filter((lead) => lead.status === newStatus);
     },

@@ -39,7 +39,7 @@ function ProjectLeadPage() {
   }, [dispatch]);
 
   return (
-    <>
+    <div>
       <ProjectLeadsHeader />
       <ProgressTracker />
       
@@ -57,7 +57,7 @@ function ProjectLeadPage() {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

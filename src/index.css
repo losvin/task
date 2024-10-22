@@ -12,6 +12,13 @@ body {
     font-family: 'Urbanist', sans-serif;
 }
 
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden
+}
+
 .clerfix:after {
     clear: both;
     content: "";
@@ -66,11 +73,12 @@ a:hover {
     float: left;
     position: relative;
     background-color: #eeeeee;
+    /* Default background for unselected steps */
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .arrow-steps .step:after,
@@ -84,6 +92,7 @@ a:hover {
     border-top: 19px solid transparent;
     border-bottom: 17px solid transparent;
     border-left: 17px solid #eeeeee;
+    /* Default arrow color for unselected steps */
     z-index: 2;
     transition: border-color 0.2s ease;
 }
@@ -92,34 +101,24 @@ a:hover {
     right: auto;
     left: 0;
     border-left: 17px solid #fff;
+    /* Left side of the arrow */
     z-index: 0;
 }
 
+.arrow-steps .step.current {
+    background-color: #40c6bf;
+    /* Tailwind's teal equivalent for selected step */
+    color: white;
+}
+
+.arrow-steps .step.current:after {
+    border-left-color: #40c6bf;
+    /* Changes the right-side arrow to teal */
+}
+
+
+/* Optional: Apply to first child (for a more rounded first step) */
+
 .arrow-steps .step:first-child:before {
     border: none;
-}
-
-.arrow-steps .step:first-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-.arrow-steps .step span {
-    position: relative;
-}
-
-.arrow-steps .step span:before {
-    opacity: 0;
-    content: "✔";
-    position: absolute;
-    top: -2px;
-    left: -20px;
-}
-
-.arrow-steps .step.done span:before {
-    opacity: 1;
-    -webkit-transition: opacity 0.3s ease 0.5s;
-    -moz-transition: opacity 0.3s ease 0.5s;
-    -ms-transition: opacity 0.3s ease 0.5s;
-    transition: opacity 0.3s ease 0.5s;
 }
