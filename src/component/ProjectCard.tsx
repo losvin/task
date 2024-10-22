@@ -26,7 +26,7 @@ interface ProjectCardProps {
 const ProjectCard : React.FC<ProjectCardProps> = ({lead}) => {
   return (
     <>
-    <div className="bg-white rounded-lg p-2 flex items-center justify-between space-x-6 border-2 border-gray-200 w-[95%] mt-3">
+    <div className="bg-white rounded-lg p-2 flex items-center justify-between space-x-6 border-2 border-gray-200 w-[95%] mt-3 ml-6 mb-4">
       {/* Left section */}
       <div className="flex items-center space-x-4 mt-1 ml-4 w-[45%]">
         {/* Icon and Follow-up */}

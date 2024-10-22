@@ -39,9 +39,11 @@ function ProjectLeadPage() {
   }, [dispatch]);
 
   return (
-    <div>
+    <>
       <ProjectLeadsHeader />
+      <div className="flex-none">
       <ProgressTracker />
+    </div>
       
       {/* Show loading state */}
       {loading && <p>Loading leads...</p>}
@@ -49,7 +51,7 @@ function ProjectLeadPage() {
       {/* Show error message if there's an error */}
       {error && <p className='text-red-500'>{error}</p>}
       
-      <div className='flex flex-col place-content-center space-y-3 bg-gray-50 items-center'>
+      <div className='flex-grow justify-items-center overflow-y-scroll bg-gray-50 items-center'>
         {filteredLeads.map((lead) => (
           <ProjectCard 
             key={lead.id} 
@@ -57,7 +59,7 @@ function ProjectLeadPage() {
           />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
